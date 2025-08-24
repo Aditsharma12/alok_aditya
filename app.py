@@ -1,15 +1,24 @@
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from a .env file
+load_dotenv()
+
+# Determine the base directory
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
 # Configure the database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flames_results.db'
+# Use an environment variable for the URI, with a fallback for local development
+db_uri = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(BASE_DIR, 'instance', 'flames_results.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Database Model
+# Database Model (no changes needed here)
 class FlamesResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name1 = db.Column(db.String(80), nullable=False)
@@ -19,7 +28,7 @@ class FlamesResult(db.Model):
     def __repr__(self):
         return f'<FlamesResult {self.result}>'
 
-# FLAMES Calculation Logic
+# FLAMES Calculation Logic (no changes needed here)
 def calculate_flames(name1, name2):
     name1 = name1.lower().replace(" ", "")
     name2 = name2.lower().replace(" ", "")
@@ -74,7 +83,14 @@ def show_history():
     all_results = FlamesResult.query.order_by(FlamesResult.id.desc()).all()
     return render_template('history.html', results=all_results)
 
+# Create the database and start the server
 if __name__ == '__main__':
+    # Ensure the 'instance' folder exists
+    if not os.path.exists(os.path.join(BASE_DIR, 'instance')):
+        os.makedirs(os.path.join(BASE_DIR, 'instance'))
+    
     with app.app_context():
         db.create_all()
+    
+    # Run the development server
     app.run(debug=True)
