@@ -2,37 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FLAMES History</title>
+    <!-- ADDED: Link to the favicon.ico file to resolve the 404 error -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* General Body and Container Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+        }
+        h1, p {
+            text-align: center;
+        }
+
+        /* Responsive Table Container */
+        .table-responsive {
+            overflow-x: auto; /* Enables horizontal scrolling */
+            -webkit-overflow-scrolling: touch; /* Improves scrolling on iOS */
+        }
         .history-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            min-width: 600px; /* Ensures a minimum width for scrolling */
         }
         .history-table th, .history-table td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
+            white-space: nowrap; /* Prevents text from wrapping */
         }
         .history-table th {
-            background-color: #f2f2f2;
+            background-color: #e0f7fa;
             font-weight: 600;
+            color: #00796b;
         }
+        .history-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Go Back Button */
         .go-back-btn {
+            display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #6a1b9a;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
         }
         .go-back-btn:hover {
-            background-color: #0056b3;
+            background-color: #4a148c;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -44,26 +87,28 @@
         </header>
 
         <section>
-            <table class="history-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name 1</th>
-                        <th>Name 2</th>
-                        <th>Result</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for result in results %}
-                    <tr>
-                        <td>{{ result.id }}</td>
-                        <td>{{ result.name1 }}</td>
-                        <td>{{ result.name2 }}</td>
-                        <td>{{ result.result }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name 1</th>
+                            <th>Name 2</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                        <tr>
+                            <td>{{ result.id }}</td>
+                            <td>{{ result.name1 }}</td>
+                            <td>{{ result.name2 }}</td>
+                            <td>{{ result.result }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <footer>

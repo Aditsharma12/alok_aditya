@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FLAMES Game</title>
+    <!-- ADDED: Link to the favicon.ico file to resolve the 404 error -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -119,10 +121,10 @@
         </form>
 
         {% if result %}
-            <div class="result-box">
-                <h2>The relationship between {{ name1 }} and {{ name2 }} is:</h2>
-                <p class="result-text">{{ result }}</p>
-            </div>
+        <div class="result-box">
+            <h2>The relationship between {{ name1 }} and {{ name2 }} is:</h2>
+            <p class="result-text">{{ result }}</p>
+        </div>
         {% endif %}
     </main>
 </body>
